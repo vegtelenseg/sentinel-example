@@ -117,9 +117,9 @@ export default function SubjectsPanel() {
                 </div>
                 <div>
                   <code className="font-mono text-sm font-semibold text-steel-200">{subject.id}</code>
-                  {subject.attributes?.department && (
+                  {subject.attributes?.department ? (
                     <p className="font-mono text-[10px] text-steel-600">{subject.attributes.department as string}</p>
-                  )}
+                  ) : null}
                 </div>
               </div>
               <button onClick={() => removeSubject(subject.id)}
