@@ -1,73 +1,36 @@
-# React + TypeScript + Vite
+# Sentinel — Interactive Example
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive playground for [@siremzam/sentinel](https://github.com/siremzam/sentinel), a type-safe, in-process access-control engine for TypeScript.
 
-Currently, two official plugins are available:
+**[Live demo →](https://vegtelenseg.github.io/sentinel-example/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What this demonstrates
 
-## React Compiler
+The app models a multi-tenant SaaS scenario with five roles (`owner`, `admin`, `manager`, `member`, `viewer`), four resource types, and a set of policy rules. Every feature of the Sentinel engine is exposed through a tabbed UI:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Tab | What you can do |
+|---|---|
+| **Policy Rules** | Browse, add, and remove allow/deny rules built with the fluent `PolicyFactory` API |
+| **Subjects** | Manage users with multi-tenant role assignments and arbitrary attributes |
+| **Evaluate** | Run `evaluate`, `explain`, and `permitted` queries against the live engine and see the full decision object |
+| **Hierarchy** | Edit the role hierarchy (`owner → admin → manager → member → viewer`) and watch inherited permissions update |
+| **Audit Log** | Inspect the `onDecision` audit trail with timestamps, matched rules, and context |
+| **Serialization** | Export rules to JSON and re-import them via `exportRulesToJson` / `importRulesFromJson` with a `ConditionRegistry` |
+| **Settings** | Toggle `strictTenancy`, change the `defaultEffect`, and resize the decision cache |
 
-## Expanding the ESLint configuration
+## Running locally
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/vegtelenseg/sentinel-example.git
+cd sentinel-example
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open http://localhost:5173/sentinel-example/.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Stack
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- [Vite](https://vite.dev) + React 19 + TypeScript
+- [Tailwind CSS](https://tailwindcss.com) for styling
+- Deployed to GitHub Pages via GitHub Actions
