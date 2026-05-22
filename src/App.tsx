@@ -73,7 +73,7 @@ function AppContent() {
             <span className="text-accent-cyan">sentinel</span>
           </div>
           <div className="font-mono text-[10px] text-steel-500 mt-0.5 tracking-wider uppercase">
-            @siremzam / v0.3.0
+            @siremzam / v{__SENTINEL_VERSION__}
           </div>
         </div>
 
