@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useEngine } from "../context/EngineContext";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 export default function SerializationPanel() {
   const { exportRules, importRules, getRules } = useEngine();
@@ -28,12 +30,11 @@ export default function SerializationPanel() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="panel-title">Serialization</h2>
-        <p className="panel-desc">
-          exportRulesToJson() &middot; importRulesFromJson() &middot; ConditionRegistry
-        </p>
-      </div>
+      <PanelHeader
+        title="Serialization"
+        description="Export the current rules as JSON and import them back. Condition functions are stored by name and resolved through a registry at import time."
+        docHref={DOC_PATHS.serialization}
+      />
 
       {message && (
         <div className={`font-mono text-sm px-3 py-2 rounded border ${

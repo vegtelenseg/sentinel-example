@@ -3,6 +3,8 @@ import { useEngine } from "../context/EngineContext";
 import { ALL_ROLES, TENANTS } from "../lib/schema";
 import type { AppSchema } from "../lib/schema";
 import type { RoleAssignment } from "@siremzam/sentinel";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 export default function SubjectsPanel() {
   const { state, addSubject, removeSubject } = useEngine();
@@ -44,17 +46,16 @@ export default function SubjectsPanel() {
 
   return (
     <div className="space-y-5">
-      <div className="flex items-end justify-between">
-        <div>
-          <h2 className="panel-title">Subjects</h2>
-          <p className="panel-desc">
-            Tenant-scoped role assignments &middot; multi-tenancy model
-          </p>
-        </div>
-        <button onClick={() => { setShowForm(!showForm); setFormError(""); }} className="btn-primary">
-          {showForm ? "Cancel" : "+ Subject"}
-        </button>
-      </div>
+      <PanelHeader
+        title="Subjects"
+        description="Users with tenant-scoped role assignments — for example, alice is owner at acme-corp and viewer at globex-inc."
+        docHref={DOC_PATHS.subjects}
+        actions={
+          <button onClick={() => { setShowForm(!showForm); setFormError(""); }} className="btn-primary">
+            {showForm ? "Cancel" : "+ Subject"}
+          </button>
+        }
+      />
 
       {showForm && (
         <div className="surface-inset rounded p-5 space-y-4">

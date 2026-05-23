@@ -7,11 +7,10 @@ import HierarchyPanel from "./components/HierarchyPanel";
 import AuditLogPanel from "./components/AuditLogPanel";
 import SerializationPanel from "./components/SerializationPanel";
 import SettingsPanel from "./components/SettingsPanel";
+import PlaygroundIntro from "./components/PlaygroundIntro";
 import SentinelLogo from "./components/SentinelLogo";
 import { toggleTheme, isDarkMode } from "./lib/theme";
-
-const DOCS_BASE =
-  import.meta.env.VITE_DOCS_URL ?? "https://vegtelenseg.github.io/sentinel";
+import { DOCS_BASE } from "./lib/docs";
 
 type Tab =
   | "rules"
@@ -36,9 +35,8 @@ const DOC_LINKS = [
   { label: "Docs", href: `${DOCS_BASE}/introduction/what-is-sentinel` },
   { label: "Guide", href: `${DOCS_BASE}/getting-started/quickstart` },
   { label: "Reference", href: `${DOCS_BASE}/reference/access-engine` },
-  { label: "Playground", href: "#", active: true },
-  { label: "npm", href: "https://www.npmjs.com/package/@siremzam/sentinel" },
-];
+  { label: "npm", href: "https://www.npmjs.com/package/@siremzam/sentinel", external: true },
+] as const;
 
 function ThemeToggle() {
   const [dark, setDark] = useState(isDarkMode);
@@ -72,26 +70,20 @@ function DocNav() {
     <header className="doc-nav">
       <a href={DOCS_BASE} className="doc-nav-brand">
         <SentinelLogo className="doc-nav-logo" />
-        Sentinel
+        Sentinel Playground
       </a>
       <div className="flex items-center gap-3">
         <nav className="doc-nav-links">
-          {DOC_LINKS.map((link) =>
-            link.active ? (
-              <span key={link.label} className="doc-nav-link active">
-                {link.label}
-              </span>
-            ) : (
-              <a
-                key={link.label}
-                href={link.href}
-                className="doc-nav-link"
-                {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              >
-                {link.label}
-              </a>
-            ),
-          )}
+          {DOC_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="doc-nav-link"
+              {...("external" in link && link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
         <ThemeToggle />
       </div>
@@ -104,7 +96,9 @@ function StatusBar() {
   const rules = getRules();
 
   return (
-    <div className="status-bar">
+    <div className="space-y-2">
+      <p className="status-bar-caption">Live engine state — updates as you edit rules and run evaluations.</p>
+      <div className="status-bar">
       <div className="status-bar-item">
         <span className="text-accent-cyan font-semibold text-lg leading-none">{rules.length}</span>
         <span className="label-micro">Rules</span>
@@ -121,6 +115,7 @@ function StatusBar() {
         <span className="text-ink font-semibold text-lg leading-none">{cacheStats?.size ?? "\u2014"}</span>
         <span className="label-micro">Cache</span>
       </div>
+      </div>
     </div>
   );
 }
@@ -134,8 +129,7 @@ function AppContent() {
 
       <div className="flex flex-1 min-h-0">
         <aside className="playground-sidebar hidden md:flex">
-          <div className="playground-sidebar-heading">Playground</div>
-          <nav className="flex-1 py-1 overflow-y-auto">
+          <nav className="flex-1 py-2 overflow-y-auto">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.key}
@@ -178,6 +172,7 @@ function AppContent() {
               ))}
             </div>
 
+            <PlaygroundIntro onGoToEvaluate={() => setActiveTab("evaluate")} />
             <StatusBar />
             {activeTab === "rules" && <RulesPanel />}
             {activeTab === "subjects" && <SubjectsPanel />}

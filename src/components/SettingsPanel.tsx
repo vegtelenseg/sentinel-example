@@ -1,16 +1,17 @@
 import { useEngine } from "../context/EngineContext";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 export default function SettingsPanel() {
   const { state, updateConfig, cacheStats, clearCache } = useEngine();
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="panel-title">Settings</h2>
-        <p className="panel-desc">
-          Engine configuration &middot; changes rebuild the engine
-        </p>
-      </div>
+      <PanelHeader
+        title="Settings"
+        description="Tune engine behavior — default effect, strict tenancy, and evaluation cache. Changes rebuild the engine immediately."
+        docHref={DOC_PATHS.security}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* General */}

@@ -89,11 +89,35 @@ function buildDefaultRules(): PolicyRule<AppSchema>[] {
       .build(),
 
     allow()
-      .id("viewer-read-all")
+      .id("viewer-read-invoices")
       .roles("viewer")
-      .actions("invoice:read", "project:read", "user:read", "report:read")
-      .anyResource()
-      .describe("Viewers can read everything")
+      .actions("invoice:read")
+      .on("invoice")
+      .describe("Viewers can read invoices")
+      .build(),
+
+    allow()
+      .id("viewer-read-projects")
+      .roles("viewer")
+      .actions("project:read")
+      .on("project")
+      .describe("Viewers can read projects")
+      .build(),
+
+    allow()
+      .id("viewer-read-users")
+      .roles("viewer")
+      .actions("user:read")
+      .on("user")
+      .describe("Viewers can read users")
+      .build(),
+
+    allow()
+      .id("viewer-read-reports")
+      .roles("viewer")
+      .actions("report:read")
+      .on("report")
+      .describe("Viewers can read reports")
       .build(),
 
     deny()

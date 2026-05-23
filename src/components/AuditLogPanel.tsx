@@ -1,16 +1,17 @@
 import { useEngine } from "../context/EngineContext";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 export default function AuditLogPanel() {
   const { state, clearAuditLog, clearConditionErrors } = useEngine();
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="panel-title">Audit Log</h2>
-        <p className="panel-desc">
-          onDecision() &middot; toAuditEntry() &middot; onConditionError()
-        </p>
-      </div>
+      <PanelHeader
+        title="Audit Log"
+        description="Every evaluation is recorded here with the matched rule, effect, and timing. Run checks on Evaluate to populate this log."
+        docHref={DOC_PATHS.audit}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Decision log */}

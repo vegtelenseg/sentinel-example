@@ -3,6 +3,8 @@ import { useEngine } from "../context/EngineContext";
 import { ALL_ACTIONS, ALL_RESOURCES, TENANTS } from "../lib/schema";
 import type { AppSchema } from "../lib/schema";
 import type { Decision, ExplainResult } from "@siremzam/sentinel";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 type Tab = "evaluate" | "explain" | "permitted";
 
@@ -51,12 +53,11 @@ export default function EvaluatePanel() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h2 className="panel-title">Evaluate</h2>
-        <p className="panel-desc">
-          evaluate() &middot; explain() &middot; permitted()
-        </p>
-      </div>
+      <PanelHeader
+        title="Evaluate"
+        description="Run an authorization check and see the result. Use explain() for a full rule trace, or permitted() to list allowed actions for UI rendering."
+        docHref={DOC_PATHS.evaluation}
+      />
 
       {/* Mode tabs */}
       <div className="flex gap-0 border border-divider rounded-sentinel-sm w-fit overflow-hidden">

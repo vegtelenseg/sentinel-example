@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useEngine, type HierarchyEntry } from "../context/EngineContext";
 import { ALL_ROLES } from "../lib/schema";
 import type { AppSchema } from "../lib/schema";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 export default function HierarchyPanel() {
   const { state, updateHierarchy } = useEngine();
@@ -55,17 +57,16 @@ export default function HierarchyPanel() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="panel-title">Role Hierarchy</h2>
-          <p className="panel-desc">
-            Inheritance rules &middot; cycle detection &middot; RoleHierarchy.define()
-          </p>
-        </div>
-        <button type="button" onClick={addEntry} className="btn-primary shrink-0">
-          + Entry
-        </button>
-      </div>
+      <PanelHeader
+        title="Role Hierarchy"
+        description="Define which roles inherit permissions from others — owner inherits from admin, and so on. Changes apply when you click Apply changes."
+        docHref={DOC_PATHS.hierarchy}
+        actions={
+          <button type="button" onClick={addEntry} className="btn-primary shrink-0">
+            + Entry
+          </button>
+        }
+      />
 
       {error && (
         <div className="font-mono text-sm text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-4 py-3 rounded-sentinel-sm">

@@ -3,6 +3,8 @@ import { useEngine } from "../context/EngineContext";
 import { ALL_ROLES, ALL_ACTIONS, ALL_RESOURCES } from "../lib/schema";
 import type { AppSchema } from "../lib/schema";
 import type { PolicyEffect } from "@siremzam/sentinel";
+import PanelHeader from "./PanelHeader";
+import { DOC_PATHS } from "../lib/docs";
 
 export default function RulesPanel() {
   const { getRules, addRule, removeRule, clearRules, loadDefaultRules, buildAllow, buildDeny } =
@@ -69,22 +71,20 @@ export default function RulesPanel() {
 
   return (
     <div className="space-y-5">
-      {/* Header */}
-      <div className="flex items-end justify-between">
-        <div>
-          <h2 className="panel-title">Policy Rules</h2>
-          <p className="panel-desc">
-            Fluent builder API &middot; allow() / deny() &middot; conditions &middot; priority
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={loadDefaultRules} className="btn-outline">Reset</button>
-          <button onClick={clearRules} className="btn-danger">Clear</button>
-          <button onClick={() => { resetForm(); setShowForm(!showForm); }} className="btn-primary">
-            {showForm ? "Cancel" : "+ Rule"}
-          </button>
-        </div>
-      </div>
+      <PanelHeader
+        title="Policy Rules"
+        description="Browse and edit allow/deny rules for the sample app. Rules are preloaded — reset anytime to restore the defaults."
+        docHref={DOC_PATHS.policyRules}
+        actions={
+          <>
+            <button onClick={loadDefaultRules} className="btn-outline">Reset</button>
+            <button onClick={clearRules} className="btn-danger">Clear</button>
+            <button onClick={() => { resetForm(); setShowForm(!showForm); }} className="btn-primary">
+              {showForm ? "Cancel" : "+ Rule"}
+            </button>
+          </>
+        }
+      />
 
       {/* Add form */}
       {showForm && (
