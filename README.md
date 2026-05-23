@@ -1,22 +1,43 @@
-# Sentinel — Interactive Example
+# Sentinel Playground
 
-An interactive playground for [@siremzam/sentinel](https://github.com/siremzam/sentinel), a type-safe, in-process access-control engine for TypeScript.
+Browser companion to the [Sentinel documentation](https://vegtelenseg.github.io/sentinel/) — try [@siremzam/sentinel](https://github.com/siremzam/sentinel) policies without installing anything.
 
-**[Live demo →](https://vegtelenseg.github.io/sentinel-example/)**
+**[Open the playground →](https://vegtelenseg.github.io/sentinel-example/)**
 
-## What this demonstrates
+The playground models a multi-tenant SaaS app: five roles, four resource types, sample users, a role hierarchy, and a starter policy set are **preloaded** so you can evaluate permissions immediately.
 
-The app models a multi-tenant SaaS scenario with five roles (`owner`, `admin`, `manager`, `member`, `viewer`), four resource types, and a set of policy rules. Every feature of the Sentinel engine is exposed through a tabbed UI:
+## Try it in two minutes
+
+1. Open the playground and go to **Evaluate**.
+2. Select **alice** (owner at `acme-corp`), action **invoice:approve**, resource **invoice**, tenant **acme-corp** — then run **Evaluate**. You should see **ALLOWED**.
+3. Switch to **explain()** and run again to see which rules matched and which did not.
+4. Try **dave** with **project:read** on **invoice** — this should **DENY** (actions must match their resource type).
+5. Check **Audit Log** for the decision trail, or edit rules on **Policy Rules** and re-run.
+
+For concepts and API details, see the [quickstart](https://vegtelenseg.github.io/sentinel/getting-started/quickstart) and [how evaluation works](https://vegtelenseg.github.io/sentinel/concepts/how-evaluation-works).
+
+## Sample data
+
+| | |
+|---|---|
+| **Tenants** | `acme-corp`, `globex-inc`, `initech` |
+| **Subjects** | `alice` (owner @ acme), `bob` (admin @ acme), `carol` (manager @ acme), `dave` (member @ acme), `eve` (viewer @ acme) — several have cross-tenant roles |
+| **Hierarchy** | `owner → admin → manager → member → viewer` (inherited permissions apply) |
+| **Resources** | `invoice`, `project`, `user`, `report` |
+
+Hit **Reset** on Policy Rules anytime to restore the default rule set.
+
+## Tabs
 
 | Tab | What you can do |
 |---|---|
 | **Policy Rules** | Browse, add, and remove allow/deny rules built with the fluent `PolicyFactory` API |
 | **Subjects** | Manage users with multi-tenant role assignments and arbitrary attributes |
-| **Evaluate** | Run `evaluate`, `explain`, and `permitted` queries against the live engine and see the full decision object |
-| **Hierarchy** | Edit the role hierarchy (`owner → admin → manager → member → viewer`) and watch inherited permissions update |
-| **Audit Log** | Inspect the `onDecision` audit trail with timestamps, matched rules, and context |
-| **Serialization** | Export rules to JSON and re-import them via `exportRulesToJson` / `importRulesFromJson` with a `ConditionRegistry` |
-| **Settings** | Toggle `strictTenancy`, change the `defaultEffect`, and resize the decision cache |
+| **Evaluate** | Run `evaluate`, `explain`, and `permitted` against the live engine |
+| **Hierarchy** | Edit role inheritance and apply changes to the engine |
+| **Audit Log** | Inspect the decision trail with timestamps, matched rules, and timing |
+| **Serialization** | Export rules to JSON and re-import via `ConditionRegistry` |
+| **Settings** | Toggle `strictTenancy`, change `defaultEffect`, and resize the evaluation cache |
 
 ## Running locally
 
@@ -28,6 +49,8 @@ npm run dev
 ```
 
 Open http://localhost:5173/sentinel-example/.
+
+Optional: point doc links at a local VitePress instance with `VITE_DOCS_URL=http://localhost:5173/sentinel`.
 
 ## Stack
 
