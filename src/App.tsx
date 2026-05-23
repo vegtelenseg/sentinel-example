@@ -7,6 +7,11 @@ import HierarchyPanel from "./components/HierarchyPanel";
 import AuditLogPanel from "./components/AuditLogPanel";
 import SerializationPanel from "./components/SerializationPanel";
 import SettingsPanel from "./components/SettingsPanel";
+import SentinelLogo from "./components/SentinelLogo";
+import { toggleTheme, isDarkMode } from "./lib/theme";
+
+const DOCS_BASE =
+  import.meta.env.VITE_DOCS_URL ?? "https://vegtelenseg.github.io/sentinel";
 
 type Tab =
   | "rules"
@@ -17,44 +22,103 @@ type Tab =
   | "serialization"
   | "settings";
 
-const NAV_ITEMS: { key: Tab; label: string; tag: string }[] = [
-  { key: "rules", label: "Policy Rules", tag: "01" },
-  { key: "subjects", label: "Subjects", tag: "02" },
-  { key: "evaluate", label: "Evaluate", tag: "03" },
-  { key: "hierarchy", label: "Hierarchy", tag: "04" },
-  { key: "audit", label: "Audit Log", tag: "05" },
-  { key: "serialization", label: "Serialization", tag: "06" },
-  { key: "settings", label: "Settings", tag: "07" },
+const NAV_ITEMS: { key: Tab; label: string }[] = [
+  { key: "rules", label: "Policy Rules" },
+  { key: "subjects", label: "Subjects" },
+  { key: "evaluate", label: "Evaluate" },
+  { key: "hierarchy", label: "Hierarchy" },
+  { key: "audit", label: "Audit Log" },
+  { key: "serialization", label: "Serialization" },
+  { key: "settings", label: "Settings" },
 ];
+
+const DOC_LINKS = [
+  { label: "Docs", href: `${DOCS_BASE}/introduction/what-is-sentinel` },
+  { label: "Guide", href: `${DOCS_BASE}/getting-started/quickstart` },
+  { label: "Reference", href: `${DOCS_BASE}/reference/access-engine` },
+  { label: "Playground", href: "#", active: true },
+  { label: "npm", href: "https://www.npmjs.com/package/@siremzam/sentinel" },
+];
+
+function ThemeToggle() {
+  const [dark, setDark] = useState(isDarkMode);
+
+  return (
+    <button
+      type="button"
+      className="theme-toggle"
+      aria-label="Toggle color scheme"
+      onClick={() => {
+        toggleTheme();
+        setDark(isDarkMode());
+      }}
+    >
+      {dark ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+function DocNav() {
+  return (
+    <header className="doc-nav">
+      <a href={DOCS_BASE} className="doc-nav-brand">
+        <SentinelLogo className="doc-nav-logo" />
+        Sentinel
+      </a>
+      <div className="flex items-center gap-3">
+        <nav className="doc-nav-links">
+          {DOC_LINKS.map((link) =>
+            link.active ? (
+              <span key={link.label} className="doc-nav-link active">
+                {link.label}
+              </span>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                className="doc-nav-link"
+                {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                {link.label}
+              </a>
+            ),
+          )}
+        </nav>
+        <ThemeToggle />
+      </div>
+    </header>
+  );
+}
 
 function StatusBar() {
   const { getRules, state, cacheStats } = useEngine();
   const rules = getRules();
 
   return (
-    <div className="surface flex items-center divide-x divide-steel-700 font-mono text-xs rounded">
-      <div className="flex items-center gap-2 px-5 py-3">
-        <span className="text-accent-cyan font-bold text-base leading-none">
-          {rules.length}
-        </span>
+    <div className="status-bar">
+      <div className="status-bar-item">
+        <span className="text-accent-cyan font-semibold text-lg leading-none">{rules.length}</span>
         <span className="label-micro">Rules</span>
       </div>
-      <div className="flex items-center gap-2 px-5 py-3">
-        <span className="text-accent-amber font-bold text-base leading-none">
-          {state.subjects.length}
-        </span>
+      <div className="status-bar-item">
+        <span className="text-accent-cyan font-semibold text-lg leading-none">{state.subjects.length}</span>
         <span className="label-micro">Subjects</span>
       </div>
-      <div className="flex items-center gap-2 px-5 py-3">
-        <span className="text-steel-300 font-bold text-base leading-none">
-          {state.auditLog.length}
-        </span>
+      <div className="status-bar-item">
+        <span className="text-ink font-semibold text-lg leading-none">{state.auditLog.length}</span>
         <span className="label-micro">Audit</span>
       </div>
-      <div className="flex items-center gap-2 px-5 py-3">
-        <span className="text-steel-300 font-bold text-base leading-none">
-          {cacheStats?.size ?? "\u2014"}
-        </span>
+      <div className="status-bar-item">
+        <span className="text-ink font-semibold text-lg leading-none">{cacheStats?.size ?? "\u2014"}</span>
         <span className="label-micro">Cache</span>
       </div>
     </div>
@@ -65,70 +129,66 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState<Tab>("rules");
 
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <aside className="w-56 bg-navy-800 border-r border-steel-700 flex flex-col shrink-0">
-        <div className="px-5 pt-6 pb-4">
-          <div className="font-mono text-sm font-bold tracking-tight">
-            <span className="text-accent-cyan">sentinel</span>
-          </div>
-          <div className="font-mono text-[10px] text-steel-500 mt-0.5 tracking-wider uppercase">
-            @siremzam / v{__SENTINEL_VERSION__}
-          </div>
-        </div>
+    <div className="flex flex-col min-h-screen">
+      <DocNav />
 
-        <nav className="flex-1 py-2 overflow-y-auto">
-          {NAV_ITEMS.map((item) => {
-            const active = activeTab === item.key;
-            return (
+      <div className="flex flex-1 min-h-0">
+        <aside className="playground-sidebar hidden md:flex">
+          <div className="playground-sidebar-heading">Playground</div>
+          <nav className="flex-1 py-1 overflow-y-auto">
+            {NAV_ITEMS.map((item) => (
               <button
                 key={item.key}
+                type="button"
                 onClick={() => setActiveTab(item.key)}
-                className={`w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors relative ${
-                  active
-                    ? "text-accent-cyan-bright"
-                    : "text-steel-400 hover:text-steel-200"
-                }`}
+                className={`playground-nav-link ${activeTab === item.key ? "active" : ""}`}
               >
-                {active && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-accent-cyan rounded-r" />
-                )}
-                <span className="font-mono text-[10px] text-steel-600 w-4">
-                  {item.tag}
-                </span>
-                <span className="font-mono text-xs font-medium">
-                  {item.label}
-                </span>
+                {item.label}
               </button>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
+          <div className="px-4 py-4 border-t border-divider">
+            <a
+              href="https://github.com/vegtelenseg/sentinel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-ink-muted hover:text-accent-cyan transition-colors"
+            >
+              GitHub
+            </a>
+          </div>
+        </aside>
 
-        <div className="px-5 py-4 border-t border-steel-700">
-          <a
-            href="https://github.com/siremzam/sentinel"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-[10px] text-steel-600 hover:text-accent-cyan transition-colors tracking-wide"
-          >
-            github/siremzam/sentinel
-          </a>
-        </div>
-      </aside>
+        <main className="flex-1 overflow-y-auto bg-bg">
+          <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+            <div className="md:hidden flex gap-1 flex-wrap pb-2 border-b border-divider">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => setActiveTab(item.key)}
+                  className={`text-sm px-3 py-1.5 rounded-sentinel-sm transition-colors ${
+                    activeTab === item.key
+                      ? "bg-accent-soft text-accent font-medium"
+                      : "text-ink-muted hover:text-ink"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
 
-      {/* Main */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-8 py-6 space-y-6">
-          <StatusBar />
-          {activeTab === "rules" && <RulesPanel />}
-          {activeTab === "subjects" && <SubjectsPanel />}
-          {activeTab === "evaluate" && <EvaluatePanel />}
-          {activeTab === "hierarchy" && <HierarchyPanel />}
-          {activeTab === "audit" && <AuditLogPanel />}
-          {activeTab === "serialization" && <SerializationPanel />}
-          {activeTab === "settings" && <SettingsPanel />}
-        </div>
-      </main>
+            <StatusBar />
+            {activeTab === "rules" && <RulesPanel />}
+            {activeTab === "subjects" && <SubjectsPanel />}
+            {activeTab === "evaluate" && <EvaluatePanel />}
+            {activeTab === "hierarchy" && <HierarchyPanel />}
+            {activeTab === "audit" && <AuditLogPanel />}
+            {activeTab === "serialization" && <SerializationPanel />}
+            {activeTab === "settings" && <SettingsPanel />}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -52,18 +52,18 @@ export default function EvaluatePanel() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-mono text-lg font-bold text-steel-200 tracking-tight">Evaluate</h2>
-        <p className="font-mono text-[11px] text-steel-500 mt-0.5">
+        <h2 className="panel-title">Evaluate</h2>
+        <p className="panel-desc">
           evaluate() &middot; explain() &middot; permitted()
         </p>
       </div>
 
       {/* Mode tabs */}
-      <div className="flex gap-0 border border-steel-700 rounded w-fit overflow-hidden">
+      <div className="flex gap-0 border border-divider rounded-sentinel-sm w-fit overflow-hidden">
         {([ ["evaluate", "evaluate()"], ["explain", "explain()"], ["permitted", "permitted()"] ] as const).map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`px-4 py-2 font-mono text-xs font-medium transition-colors ${
-              tab === key ? "bg-accent-cyan/10 text-accent-cyan" : "text-steel-500 hover:text-steel-300"
+            className={`px-4 py-2 font-mono text-sm font-medium transition-colors ${
+              tab === key ? "bg-accent-soft text-accent-cyan" : "text-ink-muted hover:text-ink"
             }`}>{label}</button>
         ))}
       </div>
@@ -130,7 +130,7 @@ export default function EvaluatePanel() {
         )}
 
         {error && (
-          <div className="font-mono text-xs text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-3 py-2 rounded">{error}</div>
+          <div className="font-mono text-sm text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-3 py-2 rounded">{error}</div>
         )}
 
         <button onClick={run} className="btn-primary w-full">
@@ -148,8 +148,8 @@ export default function EvaluatePanel() {
                 {decision.allowed ? "ALLOWED" : "DENIED"}
               </span>
             </div>
-            <p className="font-mono text-xs text-steel-400 mb-3">{decision.reason}</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs">
+            <p className="font-mono text-sm text-steel-400 mb-3">{decision.reason}</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-sm">
               <div><span className="label-micro block mb-0.5">Effect</span><span className="text-steel-200">{decision.effect}</span></div>
               <div><span className="label-micro block mb-0.5">Matched Rule</span><span className="text-steel-200">{decision.matchedRule?.id ?? "none"}</span></div>
               <div><span className="label-micro block mb-0.5">Duration</span><span className="text-steel-200">{decision.durationMs.toFixed(3)}ms</span></div>
@@ -168,16 +168,16 @@ export default function EvaluatePanel() {
                 <span className={`font-mono text-sm font-bold ${explainResult.allowed ? "text-accent-emerald" : "text-accent-rose"}`}>
                   {explainResult.allowed ? "ALLOWED" : "DENIED"}
                 </span>
-                <span className="font-mono text-xs text-steel-400">{explainResult.reason}</span>
+                <span className="font-mono text-sm text-steel-400">{explainResult.reason}</span>
               </div>
-              <span className="font-mono text-[10px] text-steel-600">{explainResult.durationMs.toFixed(3)}ms</span>
+              <span className="font-mono text-sm text-steel-600">{explainResult.durationMs.toFixed(3)}ms</span>
             </div>
           </div>
 
           <div className="label-micro">Rule Trace ({explainResult.evaluatedRules.length} rules)</div>
           <div className="space-y-1">
             {explainResult.evaluatedRules.map((er, i) => (
-              <div key={i} className={`surface rounded p-3 font-mono text-xs ${
+              <div key={i} className={`surface rounded p-3 font-mono text-sm ${
                 er.matched ? (er.rule.effect === "allow" ? "border-accent-emerald/30" : "border-accent-rose/30") : ""
               }`}>
                 <div className="flex items-center gap-2 mb-1.5">
@@ -189,7 +189,7 @@ export default function EvaluatePanel() {
                     <span className="ml-auto chip border-accent-cyan/50 text-accent-cyan font-bold">MATCHED</span>
                   )}
                 </div>
-                <div className="flex gap-4 text-[11px]">
+                <div className="flex gap-4 text-sm">
                   <span className="flex items-center gap-1">
                     <span className={`inline-block w-1.5 h-1.5 rounded-full ${er.roleMatched ? "bg-accent-emerald" : "bg-steel-700"}`} />
                     <span className="text-steel-500">role</span>
@@ -206,7 +206,7 @@ export default function EvaluatePanel() {
                 {er.conditionResults.length > 0 && (
                   <div className="flex gap-2 mt-1.5 pt-1.5 border-t border-steel-700/50">
                     {er.conditionResults.map((cr) => (
-                      <span key={cr.index} className={`text-[10px] ${cr.passed ? "text-accent-emerald" : "text-accent-rose"}`}>
+                      <span key={cr.index} className={`text-sm ${cr.passed ? "text-accent-emerald" : "text-accent-rose"}`}>
                         cond#{cr.index} {cr.passed ? "pass" : cr.error ? `err: ${cr.error}` : "fail"}
                       </span>
                     ))}
@@ -223,7 +223,7 @@ export default function EvaluatePanel() {
           <div className="label-micro mb-1">
             Permitted for <span className="text-accent-cyan">{subjectId}</span> on <span className="text-steel-200">{resource}</span>
           </div>
-          <p className="font-mono text-[11px] text-steel-600 mb-4">Drive UI rendering: button visibility, menu items</p>
+          <p className="font-mono text-sm text-steel-600 mb-4">Drive UI rendering: button visibility, menu items</p>
           <div className="flex flex-wrap gap-2">
             {permittedActions.map((a) => {
               const yes = permittedResult.has(a);
@@ -234,7 +234,7 @@ export default function EvaluatePanel() {
               );
             })}
           </div>
-          <p className="font-mono text-[10px] text-steel-600 mt-3">
+          <p className="font-mono text-sm text-steel-600 mt-3">
             Set&lt;{permittedResult.size}&gt;: {JSON.stringify([...permittedResult])}
           </p>
         </div>

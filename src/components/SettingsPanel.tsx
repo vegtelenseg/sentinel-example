@@ -6,8 +6,8 @@ export default function SettingsPanel() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-mono text-lg font-bold text-steel-200 tracking-tight">Settings</h2>
-        <p className="font-mono text-[11px] text-steel-500 mt-0.5">
+        <h2 className="panel-title">Settings</h2>
+        <p className="panel-desc">
           Engine configuration &middot; changes rebuild the engine
         </p>
       </div>
@@ -21,19 +21,19 @@ export default function SettingsPanel() {
             <div className="label-micro mb-2">Default Effect</div>
             <div className="flex gap-2">
               <button onClick={() => updateConfig({ defaultEffect: "deny" })}
-                className={`flex-1 py-2 rounded font-mono text-xs font-semibold uppercase tracking-wider transition-colors ${
+                className={`flex-1 py-2 rounded font-mono text-sm font-semibold uppercase tracking-wider transition-colors ${
                   state.config.defaultEffect === "deny"
                     ? "border border-accent-rose/40 bg-accent-rose/10 text-accent-rose"
                     : "border border-steel-700 text-steel-500"
                 }`}>Deny</button>
               <button onClick={() => updateConfig({ defaultEffect: "allow" })}
-                className={`flex-1 py-2 rounded font-mono text-xs font-semibold uppercase tracking-wider transition-colors ${
+                className={`flex-1 py-2 rounded font-mono text-sm font-semibold uppercase tracking-wider transition-colors ${
                   state.config.defaultEffect === "allow"
                     ? "border border-accent-emerald/40 bg-accent-emerald/10 text-accent-emerald"
                     : "border border-steel-700 text-steel-500"
                 }`}>Allow</button>
             </div>
-            <p className="font-mono text-[10px] text-steel-600 mt-1.5">
+            <p className="font-mono text-sm text-steel-600 mt-1.5">
               When no rule matches. Deny-by-default recommended.
             </p>
           </div>
@@ -45,12 +45,12 @@ export default function SettingsPanel() {
                 className={`relative w-10 h-5 rounded-full transition-colors ${
                   state.config.strictTenancy ? "bg-accent-cyan" : "bg-steel-700"
                 }`}>
-                <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-navy-800 rounded-full transition-transform ${
+                <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-bg-elv rounded-full transition-transform shadow-sm ${
                   state.config.strictTenancy ? "translate-x-5" : ""
                 }`} />
               </button>
             </div>
-            <p className="font-mono text-[10px] text-steel-600">
+            <p className="font-mono text-sm text-steel-600">
               Throws if tenantId omitted for subjects with tenant-scoped roles.
             </p>
           </div>
@@ -59,7 +59,7 @@ export default function SettingsPanel() {
         {/* Cache */}
         <div className="surface rounded p-5 space-y-5">
           <div className="label-micro">Evaluation Cache</div>
-          <p className="font-mono text-[11px] text-steel-500">
+          <p className="font-mono text-sm text-steel-500">
             LRU cache for unconditional evaluations. Conditional results never cached.
           </p>
 
@@ -79,7 +79,7 @@ export default function SettingsPanel() {
 
           {cacheStats ? (
             <div className="surface-inset rounded p-4">
-              <div className="grid grid-cols-2 gap-4 font-mono text-xs">
+              <div className="grid grid-cols-2 gap-4 font-mono text-sm">
                 <div>
                   <div className="label-micro mb-0.5">Current</div>
                   <span className="text-lg font-bold text-steel-200">{cacheStats.size}</span>
@@ -89,10 +89,10 @@ export default function SettingsPanel() {
                   <span className="text-lg font-bold text-steel-200">{cacheStats.maxSize}</span>
                 </div>
               </div>
-              <button onClick={clearCache} className="btn-outline w-full mt-3 text-[10px] py-1.5">Clear Cache</button>
+              <button onClick={clearCache} className="btn-outline w-full mt-3 text-sm py-1.5">Clear Cache</button>
             </div>
           ) : (
-            <div className="surface-inset rounded p-4 text-center font-mono text-xs text-steel-600">
+            <div className="surface-inset rounded p-4 text-center font-mono text-sm text-steel-600">
               Cache disabled.
             </div>
           )}
@@ -114,8 +114,8 @@ export default function SettingsPanel() {
             <div key={p.title} className="surface-inset rounded p-3 flex gap-3">
               <div className={`w-0.5 shrink-0 rounded-full ${p.on ? "bg-accent-emerald" : "bg-steel-700"}`} />
               <div>
-                <div className="font-mono text-xs font-semibold text-steel-200">{p.title}</div>
-                <p className="font-mono text-[10px] text-steel-500 mt-0.5">{p.desc}</p>
+                <div className="font-mono text-sm font-semibold text-steel-200">{p.title}</div>
+                <p className="font-mono text-sm text-steel-500 mt-0.5">{p.desc}</p>
               </div>
             </div>
           ))}

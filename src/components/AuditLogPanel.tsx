@@ -6,8 +6,8 @@ export default function AuditLogPanel() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-mono text-lg font-bold text-steel-200 tracking-tight">Audit Log</h2>
-        <p className="font-mono text-[11px] text-steel-500 mt-0.5">
+        <h2 className="panel-title">Audit Log</h2>
+        <p className="panel-desc">
           onDecision() &middot; toAuditEntry() &middot; onConditionError()
         </p>
       </div>
@@ -17,7 +17,7 @@ export default function AuditLogPanel() {
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
             <div className="label-micro">Decisions ({state.auditLog.length})</div>
-            <button onClick={clearAuditLog} className="btn-outline text-[10px] py-1 px-2">Clear</button>
+            <button onClick={clearAuditLog} className="btn-outline text-sm py-1 px-2">Clear</button>
           </div>
 
           {state.auditLog.length === 0 ? (
@@ -29,7 +29,7 @@ export default function AuditLogPanel() {
               {state.auditLog.map((entry, i) => (
                 <div key={i} className="surface rounded overflow-hidden flex">
                   <div className={`w-0.5 shrink-0 ${entry.allowed ? "bg-accent-emerald" : "bg-accent-rose"}`} />
-                  <div className="p-3 flex-1 font-mono text-xs">
+                  <div className="p-3 flex-1 font-mono text-sm">
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`font-bold ${entry.allowed ? "text-accent-emerald" : "text-accent-rose"}`}>
                         {entry.allowed ? "ALLOW" : "DENY"}
@@ -44,7 +44,7 @@ export default function AuditLogPanel() {
                       )}
                       <span className="ml-auto text-steel-600">{new Date(entry.timestamp).toLocaleTimeString()}</span>
                     </div>
-                    <div className="text-[10px] text-steel-600">
+                    <div className="text-sm text-steel-600">
                       effect: {entry.effect} | rule: {entry.matchedRuleId ?? "none"} | {entry.durationMs.toFixed(3)}ms
                     </div>
                   </div>
@@ -58,23 +58,23 @@ export default function AuditLogPanel() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="label-micro">Condition Errors ({state.conditionErrors.length})</div>
-            <button onClick={clearConditionErrors} className="btn-outline text-[10px] py-1 px-2">Clear</button>
+            <button onClick={clearConditionErrors} className="btn-outline text-sm py-1 px-2">Clear</button>
           </div>
 
           <div className="surface rounded p-4">
-            <p className="font-mono text-[11px] text-steel-500 mb-3">
+            <p className="font-mono text-sm text-steel-500 mb-3">
               Conditions that throw evaluate to <code className="text-accent-rose">false</code> (fail-closed).
             </p>
             {state.conditionErrors.length === 0 ? (
-              <p className="font-mono text-[11px] text-steel-600 text-center py-4">
+              <p className="font-mono text-sm text-steel-600 text-center py-4">
                 No errors. Add a rule with throwingCondition to test.
               </p>
             ) : (
               <div className="space-y-1.5 max-h-[300px] overflow-y-auto">
                 {state.conditionErrors.map((err, i) => (
-                  <div key={i} className="border border-accent-amber/30 bg-accent-amber/5 rounded p-2.5 font-mono text-xs">
+                  <div key={i} className="border border-accent-amber/30 bg-accent-amber/5 rounded p-2.5 font-mono text-sm">
                     <div className="text-accent-amber font-semibold">rule: {err.ruleId}</div>
-                    <div className="text-steel-500 text-[10px]">
+                    <div className="text-steel-500 text-sm">
                       cond#{err.conditionIndex}: {err.error instanceof Error ? err.error.message : String(err.error)}
                     </div>
                   </div>
@@ -85,7 +85,7 @@ export default function AuditLogPanel() {
 
           <div className="surface rounded p-4">
             <div className="label-micro mb-2">AuditEntry Schema</div>
-            <pre className="font-mono text-[10px] text-steel-500 bg-navy-900 rounded p-3 overflow-x-auto leading-relaxed">
+            <pre className="font-mono text-sm text-ink-secondary bg-bg-alt rounded p-3 overflow-x-auto leading-relaxed border border-divider">
 {JSON.stringify(
   state.auditLog[0] ?? {
     allowed: true, effect: "allow", matchedRuleId: "rule-id",

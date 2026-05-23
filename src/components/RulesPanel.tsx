@@ -72,10 +72,8 @@ export default function RulesPanel() {
       {/* Header */}
       <div className="flex items-end justify-between">
         <div>
-          <h2 className="font-mono text-lg font-bold text-steel-200 tracking-tight">
-            Policy Rules
-          </h2>
-          <p className="font-mono text-[11px] text-steel-500 mt-0.5">
+          <h2 className="panel-title">Policy Rules</h2>
+          <p className="panel-desc">
             Fluent builder API &middot; allow() / deny() &middot; conditions &middot; priority
           </p>
         </div>
@@ -94,7 +92,7 @@ export default function RulesPanel() {
           <div className="label-micro mb-3">New Rule</div>
 
           {formError && (
-            <div className="font-mono text-xs text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-3 py-2 rounded">
+            <div className="font-mono text-sm text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-3 py-2 rounded">
               {formError}
             </div>
           )}
@@ -109,16 +107,16 @@ export default function RulesPanel() {
               <div className="label-micro mb-1.5">Effect</div>
               <div className="flex gap-2">
                 <button onClick={() => setFormEffect("allow")}
-                  className={`flex-1 py-2 rounded font-mono text-xs font-semibold uppercase tracking-wider transition-colors ${
+                  className={`flex-1 py-2 rounded font-mono text-sm font-semibold uppercase tracking-wider transition-colors ${
                     formEffect === "allow"
                       ? "bg-accent-emerald/15 text-accent-emerald border border-accent-emerald/40"
-                      : "border border-steel-700 text-steel-400"
+                      : "border border-border text-ink-muted"
                   }`}>Allow</button>
                 <button onClick={() => setFormEffect("deny")}
-                  className={`flex-1 py-2 rounded font-mono text-xs font-semibold uppercase tracking-wider transition-colors ${
+                  className={`flex-1 py-2 rounded font-mono text-sm font-semibold uppercase tracking-wider transition-colors ${
                     formEffect === "deny"
                       ? "bg-accent-rose/15 text-accent-rose border border-accent-rose/40"
-                      : "border border-steel-700 text-steel-400"
+                      : "border border-border text-ink-muted"
                   }`}>Deny</button>
               </div>
             </div>
@@ -128,7 +126,7 @@ export default function RulesPanel() {
           <div>
             <div className="label-micro mb-1.5">
               Roles
-              <label className="ml-3 inline-flex items-center gap-1 normal-case text-steel-500 tracking-normal font-normal text-[11px]">
+              <label className="ml-3 inline-flex items-center gap-1 normal-case text-steel-500 tracking-normal font-normal text-sm">
                 <input type="checkbox" checked={formAnyRole} onChange={() => setFormAnyRole(!formAnyRole)} className="rounded border-steel-700" /> Any
               </label>
             </div>
@@ -150,7 +148,7 @@ export default function RulesPanel() {
           <div>
             <div className="label-micro mb-1.5">
               Actions
-              <label className="ml-3 inline-flex items-center gap-1 normal-case text-steel-500 tracking-normal font-normal text-[11px]">
+              <label className="ml-3 inline-flex items-center gap-1 normal-case text-steel-500 tracking-normal font-normal text-sm">
                 <input type="checkbox" checked={formAnyAction} onChange={() => setFormAnyAction(!formAnyAction)} className="rounded border-steel-700" /> Any
               </label>
             </div>
@@ -172,7 +170,7 @@ export default function RulesPanel() {
           <div>
             <div className="label-micro mb-1.5">
               Resources
-              <label className="ml-3 inline-flex items-center gap-1 normal-case text-steel-500 tracking-normal font-normal text-[11px]">
+              <label className="ml-3 inline-flex items-center gap-1 normal-case text-steel-500 tracking-normal font-normal text-sm">
                 <input type="checkbox" checked={formAnyResource} onChange={() => setFormAnyResource(!formAnyResource)} className="rounded border-steel-700" /> Any
               </label>
             </div>
@@ -250,9 +248,9 @@ export default function RulesPanel() {
                     )}
                   </div>
                   {rule.description && (
-                    <p className="text-xs text-steel-500 mb-2 font-sans">{rule.description}</p>
+                    <p className="text-sm text-ink-secondary mb-2 font-sans">{rule.description}</p>
                   )}
-                  <div className="flex flex-wrap gap-1 text-[11px] font-mono">
+                  <div className="flex flex-wrap gap-1 text-sm font-mono">
                     <span className="text-steel-600 mr-1">roles:</span>
                     {rule.roles === "*" ? (
                       <span className="text-accent-cyan">*</span>

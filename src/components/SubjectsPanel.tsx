@@ -46,8 +46,8 @@ export default function SubjectsPanel() {
     <div className="space-y-5">
       <div className="flex items-end justify-between">
         <div>
-          <h2 className="font-mono text-lg font-bold text-steel-200 tracking-tight">Subjects</h2>
-          <p className="font-mono text-[11px] text-steel-500 mt-0.5">
+          <h2 className="panel-title">Subjects</h2>
+          <p className="panel-desc">
             Tenant-scoped role assignments &middot; multi-tenancy model
           </p>
         </div>
@@ -60,7 +60,7 @@ export default function SubjectsPanel() {
         <div className="surface-inset rounded p-5 space-y-4">
           <div className="label-micro mb-3">New Subject</div>
           {formError && (
-            <div className="font-mono text-xs text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-3 py-2 rounded">
+            <div className="font-mono text-sm text-accent-rose border border-accent-rose/30 bg-accent-rose/5 px-3 py-2 rounded">
               {formError}
             </div>
           )}
@@ -78,13 +78,13 @@ export default function SubjectsPanel() {
             <div className="label-micro mb-2">Role Assignments</div>
             <div className="flex gap-2 items-end">
               <div className="flex-1">
-                <div className="text-[10px] text-steel-600 font-mono mb-1">Role</div>
+                <div className="text-sm text-steel-600 font-mono mb-1">Role</div>
                 <select value={tempRole} onChange={(e) => setTempRole(e.target.value as AppSchema["roles"])} className="input-dark">
                   {ALL_ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div className="flex-1">
-                <div className="text-[10px] text-steel-600 font-mono mb-1">Tenant</div>
+                <div className="text-sm text-steel-600 font-mono mb-1">Tenant</div>
                 <select value={tempTenant} onChange={(e) => setTempTenant(e.target.value)} className="input-dark">
                   <option value="">Global</option>
                   {TENANTS.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -118,7 +118,7 @@ export default function SubjectsPanel() {
                 <div>
                   <code className="font-mono text-sm font-semibold text-steel-200">{subject.id}</code>
                   {subject.attributes?.department ? (
-                    <p className="font-mono text-[10px] text-steel-600">{subject.attributes.department as string}</p>
+                    <p className="font-mono text-sm text-steel-600">{subject.attributes.department as string}</p>
                   ) : null}
                 </div>
               </div>
@@ -131,7 +131,7 @@ export default function SubjectsPanel() {
             </div>
             <div className="space-y-1">
               {subject.roles.map((r, i) => (
-                <div key={i} className="flex items-center gap-2 font-mono text-xs">
+                <div key={i} className="flex items-center gap-2 font-mono text-sm">
                   <span className={`chip ${roleColor(r.role)}`}>{r.role}</span>
                   {r.tenantId ? (
                     <span className="text-steel-500">in <span className="text-steel-300">{r.tenantId}</span></span>

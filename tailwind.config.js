@@ -1,38 +1,56 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
+        bg: {
+          DEFAULT: "var(--bg)",
+          alt: "var(--bg-alt)",
+          soft: "var(--bg-soft)",
+          elv: "var(--bg-elv)",
+        },
+        ink: {
+          DEFAULT: "var(--text-1)",
+          secondary: "var(--text-2)",
+          muted: "var(--text-3)",
+        },
+        divider: "var(--divider)",
+        border: "var(--border)",
+        accent: {
+          cyan: "var(--accent)",
+          "cyan-bright": "var(--accent-light)",
+        },
+        "accent-emerald": "var(--allow)",
+        "accent-rose": "var(--deny)",
+        "accent-amber": "var(--warning)",
         navy: {
-          950: '#060a14',
-          900: '#0a0f1e',
-          800: '#111827',
-          700: '#1a2236',
-          600: '#243049',
-          500: '#2a3a5c',
+          950: "var(--bg)",
+          900: "var(--bg)",
+          800: "var(--bg-alt)",
+          700: "var(--bg-soft)",
+          600: "var(--bg-soft)",
+          500: "var(--border)",
         },
         steel: {
-          700: '#2a3a5c',
-          600: '#3b4f73',
-          500: '#4e6389',
-          400: '#6b82a6',
-          300: '#8fa3c0',
-          200: '#b3c2d6',
-        },
-        accent: {
-          cyan: '#06b6d4',
-          'cyan-bright': '#22d3ee',
-          amber: '#f59e0b',
-          emerald: '#10b981',
-          rose: '#f43f5e',
+          700: "var(--border)",
+          600: "var(--text-3)",
+          500: "var(--text-3)",
+          400: "var(--text-2)",
+          300: "var(--text-2)",
+          200: "var(--text-1)",
         },
       },
       fontFamily: {
-        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"IBM Plex Sans"', "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+      },
+      borderRadius: {
+        sentinel: "var(--radius)",
+        "sentinel-sm": "var(--radius-sm)",
       },
     },
   },
   plugins: [],
-}
+};

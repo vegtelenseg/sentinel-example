@@ -29,14 +29,14 @@ export default function SerializationPanel() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-mono text-lg font-bold text-steel-200 tracking-tight">Serialization</h2>
-        <p className="font-mono text-[11px] text-steel-500 mt-0.5">
+        <h2 className="panel-title">Serialization</h2>
+        <p className="panel-desc">
           exportRulesToJson() &middot; importRulesFromJson() &middot; ConditionRegistry
         </p>
       </div>
 
       {message && (
-        <div className={`font-mono text-xs px-3 py-2 rounded border ${
+        <div className={`font-mono text-sm px-3 py-2 rounded border ${
           message.type === "ok"
             ? "border-accent-emerald/30 text-accent-emerald bg-accent-emerald/5"
             : "border-accent-rose/30 text-accent-rose bg-accent-rose/5"
@@ -55,12 +55,12 @@ export default function SerializationPanel() {
         placeholder="Click Export to serialize current rules, or paste JSON and click Import"
         rows={18}
         spellCheck={false}
-        className="input-dark w-full resize-y text-[11px] leading-relaxed"
+        className="input-dark w-full resize-y text-sm leading-relaxed"
       />
 
       <div className="surface rounded p-5 space-y-3">
         <div className="label-micro">Condition Registry</div>
-        <p className="font-mono text-[11px] text-steel-500">
+        <p className="font-mono text-sm text-steel-500">
           Functions can&apos;t be serialized. Conditions are stored by name and resolved at import via a registry.
         </p>
         <div className="space-y-1.5">
@@ -69,7 +69,7 @@ export default function SerializationPanel() {
             { name: "isActive", desc: "ctx.resourceContext.status === \"active\"" },
             { name: "throwingCondition", desc: "Always throws (fail-closed demo)" },
           ].map((c) => (
-            <div key={c.name} className="flex items-baseline gap-3 font-mono text-xs">
+            <div key={c.name} className="flex items-baseline gap-3 font-mono text-sm">
               <code className="text-accent-cyan font-semibold">{c.name}</code>
               <span className="text-steel-600">{c.desc}</span>
             </div>
